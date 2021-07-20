@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  nimitz:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+#    image: lilith-registry.cn-shanghai.cr.aliyuncs.com/avatar/webhook-example:latest
+    image: lilith-registry.cn-shanghai.cr.aliyuncs.com/avatar/nimitz:v1

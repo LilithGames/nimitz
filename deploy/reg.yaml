@@ -1,0 +1,23 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: nimitz
+  annotations:
+    cert-manager.io/inject-ca-from: webhook/pod-annotate-cert
+  labels:
+    app: nimitz
+    kind: mutator
+webhooks:
+  - name: nimitz.webhook.svc
+    # failurePolicy: Ignore
+    clientConfig:
+      service:
+        name: nimitz
+        namespace: webhook
+        path: "/mutate"
+        port: 443
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [ "*" ]
+        apiVersions: [ "*" ]
+        resources: [ "pods" ]

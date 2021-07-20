@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: avatar-code
+  namespace: webhook
+spec:
+  selector:
+    matchLabels:
+      app: avatar-code
+  replicas: 1
+  revisionHistoryLimit: 0
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: avatar-code
+        mutate: command
+    spec:
+      initContainers:
+      containers:
+        - name: avatar-code
+          image: lilith-registry-vpc.cn-shanghai.cr.aliyuncs.com/avatar/code:dev
+          imagePullPolicy: IfNotPresent
+
+---

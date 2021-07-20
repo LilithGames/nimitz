@@ -1,0 +1,18 @@
+ImageRules:
+  - pattern: '^(.*)lilith-registry(\..*)$'
+    replace: '${1}lilith-registry-vpc${2}'
+  - pattern: '^(.*)lilith-registry.cn-shanghai(\..*)$'
+    replace: '${1}tsg-lilith-registry.ap-southeast-1${2}'
+
+serverPort: ":8081"
+
+mode: true
+
+gracePeriod: 5000000000
+
+certFile: "/etc/webhook/certs/tls.crt"
+keyFile: "/etc/webhook/certs/tls.key"
+
+sentry:
+  dsn: "http://88017a4034464e89aa86c554332fe45d@davinci-sentry.lilithgames.com/21"
+  environment: ""

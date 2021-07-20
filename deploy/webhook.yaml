@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nimitz
+  labels:
+    app: nimitz
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nimitz
+  template:
+    metadata:
+      labels:
+        app: nimitz
+    spec:
+      containers:
+        - name: nimitz
+          image: lilith-registry.cn-shanghai.cr.aliyuncs.com/avatar/nimitz:v1
+          imagePullPolicy: IfNotPresent
+#          command: [ "tail" ]
+#          args:
+#            [ "-f", "/dev/null" ]
+          #            - -tls-cert-file=/etc/webhook/certs/tls.crt
+          #            - -tls-key-file=/etc/webhook/certs/tls.key
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: /etc/webhook/certs
+              readOnly: true
+            - name: nimitz-config
+              mountPath: /etc/webhook/config
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: pod-annotate-webhook-certs
+        - name: nimitz-config
+          configMap:
+            name: nimitz-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nimitz
+  labels:
+    app: nimitz
+spec:
+  ports:
+    - port: 443
+      targetPort: 8081
+  selector:
+    app: nimitz
